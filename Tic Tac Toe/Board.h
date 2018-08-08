@@ -2,6 +2,10 @@
 #ifndef _BOARD_H__
 #define _BOARD_H__
 
+#include <iostream>
+
+using namespace std;
+
 enum Symbols
 {
 	X = 1,
@@ -10,14 +14,16 @@ enum Symbols
 
 class Board {
 private:
-	int Tiles[3][3] = { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+	int BoardArray[3][3] = { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 public:
 	Board();
+	~Board();
 
-	void CheckWin(int Symbol, int Location);
-	void SetTile(int Symbol, int Location);
+	void DrawBoard();
+	void CheckWin(int Symbol, int xLocation, int yLocation);
+	void SetTile(int Symbol, int xLocation, int yLocation);
 
-	int GetTile(int Location);
+	int GetTile(int xLocation, int yLocation);
 
 };
 
