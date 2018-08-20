@@ -14,16 +14,19 @@ enum Symbols
 
 class Board {
 private:
-	int BoardArray[3][3] = { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+	//			  [y][x]
+	int BoardArray[3][3] = {{ 0, 0, 0 }, 
+							{ 0, 0, 0 }, 
+							{ 0, 0, 0 }};
 public:
 	Board();
 	~Board();
 
 	void DrawBoard();
-	void CheckWin(int Symbol, int xLocation, int yLocation);
+	bool CheckWin(int Symbol);
 	void SetTile(int Symbol, int xLocation, int yLocation);
 
-	int GetTile(int xLocation, int yLocation);
+	int GetTile(int yLocation, int xLocation);
 
 };
 
