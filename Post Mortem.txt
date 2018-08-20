@@ -1,0 +1,6 @@
+In creating this project I learned that I should not try and build the entire project without testing it. 
+Iterate and then test, Iterate then test. 
+Because I spent the majority of this project just trying to get the MiniMax Tree to initialise.
+
+I believe I spent too much time tying to get the MiniMax to work and did not have time to work on the AB Pruning.
+I dont think my AI is too successful, it's easy to beat and it's a bit buggy.

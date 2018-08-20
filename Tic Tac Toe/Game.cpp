@@ -8,8 +8,6 @@ Game::Game()
 	PlayerTurn  = 0;
 	GameOver	= 0;
 	Winner		= 0;
-	GameMode = 1;
-	Difficulty = 1;
 }
 
 Game::~Game()
@@ -24,14 +22,14 @@ void Game::PickTile()
 
 	while (!ValidChoice)
 	{
-	cout			<< "Pick x Tile Coord: ";
+	cout			<< "     Pick x Tile Coord: ";
 	cin	 >> xChoice;
-	cout << endl	<< "Pick y Tile Coord: ";
+	cout << endl	<< "     Pick y Tile Coord: ";
 	cin  >> yChoice;
 
 	if (xChoice > 3 || xChoice < 1 || yChoice > 3 || yChoice < 1)
 	{
-		cout << "Invalid Choice, Try Again" << endl;
+		cout << "     Invalid Choice, Try Again" << endl;
 		continue;
 	}
 
@@ -43,7 +41,7 @@ void Game::PickTile()
 		GameBoard.SetTile(PlayerTurn + 1, yChoice, xChoice);
 		ValidChoice = true;
 	}
-	else cout << "Invalid Choice, Try Again" << endl;
+	else cout << "     Invalid Choice, Try Again" << endl;
 	}
 }
 
@@ -64,19 +62,53 @@ void Game::PlayTurn()
 
 void Game::GameLoop()
 {
+	while (true)
+	{
+		int input;
+		ClearScreen();
+		cout << endl << endl;
+		cout << "          ===============================" << endl;
+		cout << "              Welcome to Tic-Tac-Toe!" << endl;
+		cout << "          ===============================" << endl;
+		cout << "             Please select a difficulty:" << endl;
+		cout << "          _______________________________" << endl;
+		cout << "            1) Player Vs Player" << endl;
+		cout << "            2) Player Vs Easy AI" << endl;
+		cout << "            3) Player Vs Hard AI" << endl;
+		cout << "            : ";
+		cin >> input;
+
+		if (input == 1)
+		{
+			GameMode = 0;
+			break;
+		}
+		else if (input == 2)
+		{
+			GameMode = 1;
+			Difficulty = 0;
+			break;
+		}
+		else if (input == 3)
+		{
+			GameMode = 1;
+			Difficulty = 1;
+			break;
+		}
+	}
 	while (!GameOver)
 	{
 		ClearScreen();
-		GameBoard.DrawBoard();
+		GameBoard.DrawBoard(PlayerTurn);
 		PlayTurn();
 	}
 
 	ClearScreen();
-	GameBoard.DrawBoard();
-	cout << "Game Over!" << endl;
-	if		(Winner == 1) cout << "X Wins!";
-	else if (Winner == 2) cout << "O Wins!";
-	else				  cout << "It's A Draw!";
+	GameBoard.DrawBoard(PlayerTurn);
+	cout << "     Game Over!" << endl;
+	if (Winner == 1) cout << "     X Wins!" << endl << endl;
+	else if (Winner == 2) cout << "     O Wins!" << endl << endl;
+	else				  cout << "     It's A Draw!" << endl << endl;
 }
 
 bool Game::CheckWin()

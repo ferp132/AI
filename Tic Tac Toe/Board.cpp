@@ -9,12 +9,13 @@ Board::~Board()
 {
 }
 
-void Board::DrawBoard()
+void Board::DrawBoard(bool PlayerTurn)
 {
-	cout << " -------------" << endl;
+	cout << endl << endl << "      --1---2---3--" << endl;
+	cout << "      -------------" << endl;
 	for (int y = 0; y < 3; y++)
 	{
-		cout << " | ";
+		cout << "    " << y + 1 << " | ";
 		for (int x = 0; x < 3; x++)
 		{
 			if (BoardArray[y][x] == 0)
@@ -31,9 +32,11 @@ void Board::DrawBoard()
 			}
 			cout << " | ";
 		}
-		cout << endl << " -------------" << endl;
+		cout << endl << "      -------------" << endl;
 	}
-	cout << endl;
+	if (PlayerTurn) cout <<"      O's Turn" << endl;
+	else cout << endl << "      X's Turn:" << endl;
+	cout << "      -------------" << endl;
 }
 
 

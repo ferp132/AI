@@ -9,7 +9,6 @@ int main() {
 
 	Game MainGame;
 	MainGame.GameLoop();
-
 	int i;
 	cin >> i;
 	return 0;

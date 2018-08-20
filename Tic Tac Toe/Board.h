@@ -22,7 +22,7 @@ public:
 	Board();
 	~Board();
 
-	void DrawBoard();
+	void DrawBoard(bool PlayerTurn);
 	
 	bool CheckStateHard(int Symbol);
 	void SetTile(int Symbol, int yLocation, int xLocation);
