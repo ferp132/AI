@@ -2,11 +2,14 @@
 
 Game::Game()
 {
+	srand(time(NULL));
 	MaxTurns	= 9;
 	TurnsTaken  = 0;
 	PlayerTurn  = 0;
 	GameOver	= 0;
 	Winner		= 0;
+	GameMode = 1;
+	Difficulty = 1;
 }
 
 Game::~Game()
@@ -37,7 +40,7 @@ void Game::PickTile()
 
 	if (GameBoard.GetTile(yChoice, xChoice) == 0)
 	{
-		GameBoard.SetTile(PlayerTurn + 1, xChoice, yChoice);
+		GameBoard.SetTile(PlayerTurn + 1, yChoice, xChoice);
 		ValidChoice = true;
 	}
 	else cout << "Invalid Choice, Try Again" << endl;
@@ -119,10 +122,34 @@ void Game::ClearScreen()
 
 void Game::AIPickTile()
 {
+	Board NewBoardState = MyTree.InitMiniMax(GameBoard, 9 - TurnsTaken, Difficulty);
+
+	for (int y = 0; y < 3; y++)
+	{
+		for (int x = 0; x < 3; x++)
+		{
+			GameBoard.SetTile(NewBoardState.GetTile(y, x), y, x);
+		}
+	}
 }
 
 void Game::RandomPickTile()
 {
-	//Pick A Random Tile
-	cout << "This Function Doesnt Do Anything Yet!";
+	int Pick;
+	bool ValidChoice = 0;
+	int xChoice;
+	int yChoice;
+
+	while (!ValidChoice)
+	{
+		Pick = rand() % 9;
+		yChoice = Pick / 3;
+		xChoice = Pick % 3;
+
+		if (GameBoard.GetTile(yChoice, xChoice) == 0)
+		{
+			GameBoard.SetTile(PlayerTurn + 1, yChoice, xChoice);
+			ValidChoice = true;
+		}
+	}
 }

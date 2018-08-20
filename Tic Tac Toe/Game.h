@@ -1,5 +1,7 @@
 #pragma once
 #include <Windows.h>
+#include <stdlib.h>
+#include <time.h>
 
 #include "Board.h"
 #include "Player.h"

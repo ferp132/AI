@@ -1,26 +1,72 @@
 #include "MiniMaxTree.h"
 
-void MiniMaxTree::InitTree(Board InitBoardState, unsigned int InitDepth)
+MiniMaxTree::MiniMaxTree()
 {
-	CurrentRoot = new Node(InitBoardState, InitDepth);
-	
-	for (unsigned int D1 = 0; D1 < InitDepth; D1++)
-	{
-		Node* CurrentChild = CurrentRoot->CreateChild(D1);
+	CurrentRoot = nullptr;
+	MaxNode = nullptr;
+}
 
-		//Where to Try and Put a Symbol
-		int ToCheck = CurrentChild->GetDepth();
-		while (true)
+MiniMaxTree::~MiniMaxTree()
+{
+}
+
+Board MiniMaxTree::InitMiniMax(Board InitBoardState, unsigned int InitDepth, bool InitDifficulty)
+{
+	int initMax;
+	int MaxTry;
+
+	CurrentRoot = new Node(InitBoardState, InitDepth, InitDifficulty);
+//	Node MaxNode = CurrentRoot;
+	CurrentRoot->CreateLayer();
+	initMax = -2;
+	for (int AllChildren = 1; AllChildren < CurrentRoot->GetDepth(); AllChildren++)
+	{
+		MaxTry = MiniMax(CurrentRoot->GetChild(AllChildren));
+		if (MaxTry > initMax)
 		{
-			int xLoc = ToCheck / 3;
-			int yLoc = ToCheck % 3;
-			if (CurrentChild->GetBoardState()->GetTile(yLoc, xLoc) == 0)	//if This tile is already taken, try the next one, unless its the last one
-			{
-				CurrentChild->GetBoardState()->SetTile(CurrentChild->GetMinMax() + 1, xLoc, yLoc);
-				break;
-			}
-			else if (ToCheck >= 8) ToCheck = 0;
-			else ToCheck++;
+			MaxNode = CurrentRoot->GetChild(AllChildren);
+			initMax = MaxTry;
 		}
 	}
+	
+	return MaxNode->GetBoard();
 }
+
+int MiniMaxTree::MiniMax(Node * N)
+{
+			//If this is a leaf node, return the value
+	if (N->GetDepth() == 0)
+	{
+		return N->GetValue();
+	}
+	else 
+	{		//Create The Successors to N
+		N->CreateLayer();
+		if (N->GetMinMax())
+		{	//If this is a max node Then return the max of the Successors
+			int Max = -1000;
+			for (int AllChildren = 0; AllChildren < size(N->GetChildren()) ; AllChildren++)
+			{
+				if (N->GetChild(AllChildren) != nullptr)
+				{
+					Max = max(Max, MiniMax(N->GetChild(AllChildren)));
+				}
+			}
+			return Max;
+		}
+		else
+		{	//return the min of the Successors
+			int Min = 1000;
+			for (int AllChildren = 0; AllChildren <  size(N->GetChildren()); AllChildren++)
+			{
+				if (N->GetChild(AllChildren) != nullptr)
+				{
+					Min = min(Min, MiniMax(N->GetChild(AllChildren)));
+				}
+			}
+			return Min;
+		}
+
+	}
+}
+

@@ -23,8 +23,9 @@ public:
 	~Board();
 
 	void DrawBoard();
-	bool CheckWin(int Symbol);
-	void SetTile(int Symbol, int xLocation, int yLocation);
+	
+	bool CheckStateHard(int Symbol);
+	void SetTile(int Symbol, int yLocation, int xLocation);
 
 	int GetTile(int yLocation, int xLocation);
 
