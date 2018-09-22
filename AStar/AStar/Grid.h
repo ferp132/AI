@@ -17,14 +17,21 @@ private:
 	int GridWidth;						//Width of the grid
 
 public:
-
-	Grid(int InitHeight, int InitWidth);
+	//-----Con/Destructor
+	Grid(Coord InitGridSize);
 	~Grid();
 
+	//-----Pathfinding
 	void CheckNode(Node* Checking);		//Checks all the nbeightbours of this node
-//	void UpdateNode(Node* ToUpdate);	//Updates the nodes Parent, LocalValue & GlobalValue
-	void DrawGrid();					//Draws the grid in the console
 	void FindPath();					//Finds the optimal path from the start node to the end node
+	float DistanceToEnd(Node* Checking);
+
+
+	//-----Drawing
+	void DrawGrid();					//Draws the grid in the console
+	void DrawMenu();
+	void ResetGrid();
+
 
 	void SetStart(Coord NewStart);		//Sets the new start node
 	void SetEnd	 (Coord NewEnd);		//Sets a new end node

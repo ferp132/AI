@@ -1,5 +1,5 @@
 #include <iostream>
-
+#include <stdlib.h>
 #include "Grid.h"
 #include "Coordinate.h"
 
@@ -7,27 +7,77 @@ using namespace std;
 
 int main(void)
 {
-	Grid MainGrid(5, 5);
-	Coord Start = { 2, 1 };
-	Coord End = { 4, 3 };
-
-	MainGrid.DrawGrid();
-
 	int wait;
-	cin >> wait;
+	Coord GridSize;
+	int MenuChoice;
+	Coord NodeChoice;
+	bool Exit = false;
 
-	MainGrid.SetStart(Start);
-	MainGrid.SetEnd(End);
-	MainGrid.DrawGrid();
+	cout << "Welcome to Louis' A* Algorithm" << endl;
+	cout << "Select the size of your grid: " << endl << endl;
+	cout << "Width: ";
+	cin >> GridSize.xPos;
+	cout << "Height: ";
+	cin >> GridSize.yPos;
 
-	cin >> wait;
+	Grid MainGrid(GridSize);
 
-	Start = { 4, 4 };
-	End = { 2,2 };
+	while (!Exit)
+	{
+		NodeChoice = { -1, -1 };
+		MainGrid.DrawGrid();
+		MainGrid.DrawMenu();
+		
+		cin >> MenuChoice;
+		MainGrid.DrawGrid();
 
-	MainGrid.SetStart(Start);
-	MainGrid.SetEnd(End);
-	MainGrid.DrawGrid();
-
-	cin >> wait;
+		switch (MenuChoice)
+		{
+		case 1: 
+		{
+			MainGrid.FindPath();
+			break;
+		}
+		case 2:
+		{
+			cout << "Setting Obstacle:" << endl;
+			cout << "X Position: ";
+			cin >> NodeChoice.xPos;
+			cout << "Y Position: ";
+			cin >> NodeChoice.yPos;
+			MainGrid.SetObs(NodeChoice);
+			break;
+		}
+		case 3:
+		{
+			cout << "Setting Start Node:" << endl;
+			cout << "X Position: ";
+			cin >> NodeChoice.xPos;
+			cout << "Y Position: ";
+			cin >> NodeChoice.yPos;
+			MainGrid.SetStart(NodeChoice);
+			break;
+		}
+		case 4:
+		{
+			cout << "Setting End Node:" << endl;
+			cout << "X Position: ";
+			cin >> NodeChoice.xPos;
+			cout << "Y Position: ";
+			cin >> NodeChoice.yPos;
+			MainGrid.SetEnd(NodeChoice);
+			break;
+		}
+		case 5:
+		{
+			MainGrid.ResetGrid();
+			break;
+		}
+		case 6:
+		{
+			Exit = true;
+			break;
+		}
+		}
+	}
 }
