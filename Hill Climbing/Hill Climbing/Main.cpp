@@ -1,4 +1,8 @@
 #include <iostream>
+#include <vector>
+#include <algorithm>
+
+#include "Node.cpp"
 
 using namespace std;
 
@@ -12,9 +16,25 @@ void Swap(int Array[], int a, int b)
 int main(void)
 {
 	int wait;
-	const int ArrSize = 5;
-	int Vals[ArrSize] = { 0, 1, 2, 3 , 4};
+	const int ArrSize = 3;
+	int Vals[ArrSize] = { 0, 1, 2};
 
+	int NodeMapSize = 3;
+	vector<Node> NodeMap;
+	Node* NodePointer;
+
+	for (float i = 0; i < NodeMapSize; i++)
+	{
+		NodePointer = new Node{ i , i + 1 };
+		NodeMap.push_back(*NodePointer);
+	}
+
+	for (int i = 0; i < NodeMap.size(); i++)
+	{
+		cout << NodeMap.at(i).xPos << NodeMap.at(i).yPos << " " << endl;
+	}
+
+	/*
 	int LargestI = 0;
 	int LargestJ = 0;
 	int It = 0;
@@ -56,8 +76,7 @@ int main(void)
 
 		reverse(&Vals[LargestI + 1], end(Vals));
 	}
-
-
+	*/
 	cin >> wait;
 	return 0;
 }
