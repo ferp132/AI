@@ -1,82 +1,78 @@
 #include <iostream>
-#include <vector>
-#include <algorithm>
+#include <stdlib.h>
+#include <time.h>
 
-#include "Node.cpp"
+#include "RouteManager.h"
+#include "Route.h"
 
 using namespace std;
 
-void Swap(int Array[], int a, int b)
-{
-	int Temp = Array[a];
-	Array[a] = Array[b];
-	Array[b] = Temp;
-}
-
 int main(void)
 {
-	int wait;
-	const int ArrSize = 3;
-	int Vals[ArrSize] = { 0, 1, 2};
+	srand((unsigned int)time(NULL));
+	int GridWidth = 20;
+	int GridHeight = 20;
+	int NumNodes = 10;
+	int MaxIters = 10;
+	float AnnealTemp = 100;
+	float CoolRate = 0.2;
+	int MenuOption = 0;
+	bool exit = 0;
 
-	int NodeMapSize = 3;
-	vector<Node> NodeMap;
-	Node* NodePointer;
+	cout << "Welcome to Louis' Hill Climbing & Simulated Annealing Simulator" << endl;
+	cout << "This Program attempts to solve the travelling salesman problem" << endl;
+	cout << "It will generate a number of nodes upon a grid and will attempt to find the shortest distance you can travel while visiting all nodes" << endl << endl;
+	cout << "Current Number of Nodes: " << NumNodes << endl << "Please enter how many nodes to generate: ";
+	cin >> NumNodes;
+	cout << endl << "Current Grid Size: " << GridHeight << " x " << GridWidth << endl << "Please Enter your desired grid size: ";
+	cin >> GridHeight;
+	system("CLS");
 
-	for (float i = 0; i < NodeMapSize; i++)
+	RouteManager MainManager(NumNodes, GridHeight, GridHeight, MaxIters, AnnealTemp, CoolRate);
+
+	while (!exit)
 	{
-		NodePointer = new Node{ i , i + 1 };
-		NodeMap.push_back(*NodePointer);
+		MainManager.PrintMenu();
+		cin >> MenuOption;
+		if (MenuOption == 1)
+		{
+			cout << endl << "Setting Max Iterations: ";
+			cin >> MaxIters;
+			MainManager.SetMaxIters(MaxIters);
+			system("CLS");
+		}
+		else if (MenuOption == 2)
+		{
+			cout << endl << "Setting Base Temperature: ";
+			cin >> AnnealTemp;
+			MainManager.SetAnnealTemp(AnnealTemp);
+			system("CLS");
+		}
+		else if (MenuOption == 3)
+		{
+			cout << endl << "Setting Cooling Rate: ";
+			cin >> CoolRate;
+			MainManager.SetCoolingRate(CoolRate);
+			system("CLS");
+		}
+		else if (MenuOption == 4)
+		{
+			system("CLS");
+			MainManager.HillClimbing();
+		}
+		else if (MenuOption == 5)
+		{
+			system("CLS");
+			MainManager.SimulatedAnnealing();
+		}
+		else if (MenuOption == 6)
+		{
+			exit = true;
+		}
+
+
 	}
 
-	for (int i = 0; i < NodeMap.size(); i++)
-	{
-		cout << NodeMap.at(i).xPos << NodeMap.at(i).yPos << " " << endl;
-	}
 
-	/*
-	int LargestI = 0;
-	int LargestJ = 0;
-	int It = 0;
-
-	while (LargestI != -1)
-	{
-		It++;
-		//STEP 1:
-		LargestI = -1;
-		LargestJ = -1;
-
-		for (int i = 0; i < ArrSize; i++)
-		{
-			cout << Vals[i] << " ";
-		}
-		cout << " - " << It << endl;
-
-		for (int i = 0; i < ArrSize - 1; i++)
-		{
-			if (Vals[i] < Vals[i + 1]) LargestI = i;
-		}
-
-		if (LargestI == -1)
-		{
-			cout << "Finished";
-			break;
-		}
-
-		//STEP 2:
-		for (int j = 0; j < ArrSize; j++)
-		{
-			if (Vals[LargestI] < Vals[j]) LargestJ = j;
-		}
-
-		//STEP 3:
-		Swap(Vals, LargestI, LargestJ);
-
-		//STEP 4:
-
-		reverse(&Vals[LargestI + 1], end(Vals));
-	}
-	*/
-	cin >> wait;
-	return 0;
+	cin.ignore();
 }
