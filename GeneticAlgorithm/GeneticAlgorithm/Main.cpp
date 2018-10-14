@@ -9,7 +9,7 @@ using namespace std;
 
 int main(void)
 {
-	Population pop(20, 1, "Hello There General Kenobi");
+	Population pop(10, 1, "Hello There General Kenobi");
 
 	pop.Init();
 	pop.ProcessGenAlg();

@@ -31,9 +31,11 @@ void Population::Init()
 		}	
 	}
 
+	
 	CalcFitness();
 	while (MatingPool.size() < 5)
 	{
+		MatingPool.clear();
 		for (int i = 0; i < PopSize; i++)
 		{
 			for (int j = 0; j < GoalPhrase.size(); j++)
@@ -60,7 +62,7 @@ void Population::ProcessGenAlg()
 		CalcFitness();
 		Select();
 		Generation++;
-		Sleep(1000);
+		//Sleep(100);
 	}
 }
 
@@ -74,12 +76,13 @@ void Population::CalcFitness()
 		{
 			if (PopArray[i].GetPhrase().at(j) == GoalPhrase.at(j))
 			{
-				std::cout << "Score++";
+//				std::cout << "Score++";
 				PopArray[i].IncrementScore();
 				MatingPool.push_back(i);
 			}
 		}
 
+	//	PopArray[i].SetScore(PopArray[i].GetScore() / GoalPhrase.size());
 		if (PopArray[i].GetScore() > BestDNA.GetScore())
 			BestDNA = PopArray[i];
 	}
@@ -111,7 +114,8 @@ void Population::Select()
 
 void Population::Breed(int First, int Second, int Pos)
 {
-	int Selection = (rand() % (GoalPhrase.size() - 1)) + 1;
+	//int Selection = (rand() % (GoalPhrase.size() - 1)) + 1;
+	int Selection = GoalPhrase.size() / 2;
 
 	std::string NewPhrase = PopArray[First].GetPhrase().substr(0, Selection);
 	NewPhrase.append(PopArray[Second].GetPhrase().substr(Selection, std::string::npos));
@@ -131,10 +135,17 @@ void Population::Draw()
 {
 	system("CLS");
 
-	std::cout << "Current Generation: " << Generation << "     ||     " << " Goal Phrase: " << GoalPhrase << "     ||     " << "Best Phrase: " << BestDNA.GetPhrase() << std::endl << std::endl;
+	int PrintNo;
 
-	for (int i = 0; i < PopSize; i++)
+	if (PopSize < 20) PrintNo = PopSize;
+	else PrintNo = 20;
+	
+
+	for (int i = 0; i < PrintNo; i++)
 	{
-		std::cout << "Phrase " << i << ":     " << PopArray[i].GetPhrase() << " Score: " << PopArray[i].GetScore() << std::endl;
+		std::cout << "     " << PopArray[i].GetPhrase() << " Score: " << PopArray[i].GetScore() << std::endl;
 	}
+
+	std::cout << std::endl << std::endl;
+	std::cout << "Current Generation: " << Generation << "     ||     " << " Goal Phrase: " << GoalPhrase << "     ||     " << "Best Phrase: " << BestDNA.GetPhrase() << std::endl << std::endl;
 }
